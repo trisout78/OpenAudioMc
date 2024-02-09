@@ -22,11 +22,9 @@ jobs:
     - name: Build project
       run: cd client && npm run build
 
-    - name: Zip artifacts
-      run: cd client/build && zip -r artifacts.zip .
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: client-artifacts
-        path: ./client/build/artifacts.zip
+        name: Client.zip
+        path: ./client/build/
