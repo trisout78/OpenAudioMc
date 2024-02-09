@@ -13,26 +13,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Navigate to client directory
-      run: cd client
-
     - name: Install dependencies
-      run: npm install
+      run: cd client && npm install
 
     - name: Run linting
-      run: npm run lint
+      run: cd client && npm run lint
 
     - name: Build project
-      run: npm run build
-
-    - name: Navigate to build directory
-      run: cd build
+      run: cd cd client && npm run build
 
     - name: Zip artifacts
-      run: zip -r artifacts.zip .
+      run: cd client/build && zip -r artifacts.zip .
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: client-artifacts
-        path: ./artifacts.zip
+        path: ./client/build/artifacts.zip
