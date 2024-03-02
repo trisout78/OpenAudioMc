@@ -25,7 +25,13 @@ export function isProxyRequired(url) {
 }
 
 function isValidUrl(url) {
-  return URL.canParse(url);
+  // does this browser support URL.canParse? because some don't..
+  try {
+    return URL.canParse(url);
+  } catch (e) {
+    // fallback, lets sanity check
+    return url.startsWith('http') || url.startsWith('https');
+  }
 }
 
 function getQueryParam(url, key, defaultValue = null) {
@@ -35,6 +41,10 @@ function getQueryParam(url, key, defaultValue = null) {
 }
 
 export function proxifyUrl(url) {
+  // is it official?
+  if (isDomainOfficial(getDomainOfStr(url))) {
+    return url;
+  }
   if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1 && getQueryParam(url, 'oaNoCors') !== 'true') {
     return AUDIO_ENDPOINTS.PROXY + encodeURIComponent(url);
   }
